@@ -1,22 +1,31 @@
-<div class="card bg-base-100 w-1/2 mx-auto p-10 mt-10 shadow-xl">
-  <h2 class="text-3xl text-red-400 font">Hello Priyanshs {{title}}</h2>
-  <h2>Signal Count : {{this.count()}}</h2>
-  <button class="btn btn-primary" (click)="incrementSignal()">Increment Signal</button>
+<app-nav></app-nav>
+<div class="card bg-base-100 w-1/2 mx-auto p-10 mt-25 shadow-xl">
+  <h2 class="text-3xl text-red-400 font">{{title}}</h2>
+  <!--  <h2>Signal Count : {{this.count()}}</h2>
+  <button class="btn btn-primary" (click)="incrementSignal()">Increment Signal</button> -->
 
   <ul class="list">
-      @for (member of members(); track member.id){
-        <li class="list-row items-center">
-          <img src="/user.png" alt="user avtar" class="size-12 rounded-box" />
-          {{member.email}}
-        </li>
-      }
+    @for (member of members(); track member.id){
+    <li class="list-row items-center">
+      <img src="/user.png" alt="user avtar" class="size-12 rounded-box" />
+      {{member.email}}
+    </li>
+    }
   </ul>
 
-  <ul *ngFor="let item of stringCollection; let i = index">
+  <!-- using *ngFor within li to display member -->
+ <!--  <ul class="list">
+    <li *ngFor = "let member of members()"  class="list-row items-center">
+      <img src="/user.png" alt="user avtar" class="size-12 rounded-box" />
+      {{member.email}}
+    </li>
+  </ul> -->
+
+  <!-- <ul *ngFor="let item of stringCollection; let i = index">
       <li>
         {{item}}.{{i + 1}}
       </li>
-  </ul>
+  </ul> -->
 </div>
 
 
