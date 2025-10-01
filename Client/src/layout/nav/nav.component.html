@@ -25,13 +25,13 @@
                     </div>
                     <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
                         <li><a>Edit Profile</a></li>
-                        <li><a (click)="logout()">LogOut</a></li>
+                        <li><a (click)="onLogout()">LogOut</a></li>
                     </ul>
                 </div>
             }
             @else
             {
-                <form #loginForm="ngForm" (ngSubmit)="login()" class="flex items-center gap-3">
+                <form #loginForm="ngForm" (ngSubmit)="onLogin()" class="flex items-center gap-3">
                     <input [(ngModel)]="this.creds.email" class="input" name="email" type="text" placeholder="Email" />
                     <input [(ngModel)]="this.creds.password" class="input" name="password" type="password"
                         placeholder="password" />

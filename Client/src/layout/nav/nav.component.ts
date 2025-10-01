@@ -16,7 +16,7 @@ export class NavComponent {
     password: ''
   };
 
-  login(): void{
+  onLogin(): void{
     this.accountService.Post_login(this.creds).subscribe({
       next: response => 
         { 
@@ -28,7 +28,7 @@ export class NavComponent {
       });
   }
 
-  logout() : void
+  onLogout() : void
   {
     //this.hasLoggingIn.set(false);
     this.accountService.Post_LogOut();

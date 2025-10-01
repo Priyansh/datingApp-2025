@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class MembersController (AppDbContext dbContext): ControllerBase
+    // [ApiController]
+    // [Route("api/[controller]")]
+    public class MembersController (AppDbContext dbContext): BaseApiController //ControllerBase
     {
         // GET: api/members
         [HttpGet]

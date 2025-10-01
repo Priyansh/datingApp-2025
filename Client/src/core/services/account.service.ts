@@ -39,7 +39,7 @@ export class AccountService {
   Post_login(creds: any) {
     return this.http.post<User>(this.base_URL + 'account/login', creds).pipe(
       tap(user => {
-        if (user != null) {
+        if (user) {
           this.currentUser.set(user);
           localStorage.setItem('user', JSON.stringify(user));
         }
