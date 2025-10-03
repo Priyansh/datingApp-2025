@@ -4,6 +4,8 @@ using API.Controllers;
 using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
+using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,10 +13,10 @@ namespace DatingRealApp.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AccountController(AppDbContext dbContext) : BaseApiController
+    public class AccountController(AppDbContext dbContext, ITokenService tokenService) : BaseApiController
     {
         [HttpPost("register")]
-        public async Task<ActionResult<AppUser>> Register(RegisterDto registerDto)
+        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
             if(await EmailExists(registerDto.Email)) 
                 return BadRequest("Email is already in use");
@@ -27,22 +29,23 @@ namespace DatingRealApp.API.Controllers
                 PasswordSalt = hmac.Key
             };
             dbContext.Users.Add(user);
-            //await appDbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync();
             await Task.CompletedTask;
 
-            return user;
+            return user.ToUserDto(tokenService);
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<AppUser>> Login(LoginDto loginDto) {
+        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto) {
             var user = await dbContext.Users.FirstOrDefaultAsync(x => x.Email == loginDto.Email);
             if(user == null) return Unauthorized("Invalid email");
+
             using var hmac = new HMACSHA512(user.PasswordSalt);
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
             for(int i = 0; i < computedHash.Length; i++) {
                 if(computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid password");
             }
-            return await Task.FromResult(Ok());
+            return user.ToUserDto(tokenService);
         }
         public async Task<bool> EmailExists(string email)
         {
